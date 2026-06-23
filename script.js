@@ -100,27 +100,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const dots = document.querySelectorAll('.dot');
     
     if (track && prevBtn && nextBtn) {
-        let currentIndex = 0;
+        let currentIndex = 1; // Start with the middle card focused
         const getCardsPerView = () => window.innerWidth <= 768 ? 1 : 3;
         const totalCards = document.querySelectorAll('.carousel-card').length;
         
         function updateCarousel() {
             const cardsPerView = getCardsPerView();
             const cardWidth = document.querySelector('.carousel-card').offsetWidth + 24; // width + gap
-            const maxIndex = Math.max(0, totalCards - cardsPerView);
+            const maxIndex = totalCards - 1;
             
             // Boundary check
             if (currentIndex > maxIndex) currentIndex = maxIndex;
             if (currentIndex < 0) currentIndex = 0;
             
             // Move track
-            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            if (cardsPerView === 1 || totalCards > cardsPerView) {
+                // On mobile, or if we have lots of cards, actually slide the track
+                // If we are on mobile, we center the currentIndex by sliding.
+                track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            } else {
+                // On desktop with exactly 3 cards, we don't slide. The cards fit perfectly.
+                track.style.transform = `translateX(0px)`;
+            }
             
             // Update dots
             dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === Math.min(currentIndex, dots.length - 1));
+                dot.classList.toggle('active', index === currentIndex);
             });
             
+            // Update Coverflow Effect
+            const allCards = document.querySelectorAll('.carousel-card');
+            
+            // On desktop with 3 cards (no slide), center card is just currentIndex.
+            // On mobile (with slide), center card is also just currentIndex.
+            // (If we had 4+ cards on desktop, we'd need more complex logic, but we only have 3).
+            const centerCardIndex = currentIndex;
+            
+            allCards.forEach((card, idx) => {
+                if (idx === centerCardIndex) {
+                    card.style.transform = 'scale(1)';
+                    card.style.filter = 'blur(0px)';
+                    card.style.opacity = '1';
+                    card.style.zIndex = '2';
+                } else {
+                    card.style.transform = 'scale(0.9)';
+                    card.style.filter = 'blur(0.5px)'; // Reduced blur
+                    card.style.opacity = '0.6';
+                    card.style.zIndex = '1';
+                }
+            });
+
             // Disable/Enable buttons
             prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
             prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
@@ -130,8 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         nextBtn.addEventListener('click', () => {
-            const maxIndex = totalCards - getCardsPerView();
-            if (currentIndex < maxIndex) {
+            if (currentIndex < totalCards - 1) {
                 currentIndex++;
                 updateCarousel();
             }
@@ -178,57 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Scroll scrub fade for Bottom CTA ---
-    const scrollFadeElements = document.querySelectorAll('.scroll-fade-in-out');
-    const scrollFadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-                entry.target.classList.add('visible');
-            } else {
-                entry.target.classList.remove('visible');
-            }
-        });
-    }, {
-        threshold: [0, 0.1, 0.2]
-    });
-
-    scrollFadeElements.forEach(el => scrollFadeObserver.observe(el));
-
-    // --- Staggered Fade for FAQs ---
-    const staggerElements = document.querySelectorAll('.scroll-fade-in-out-stagger');
-    const staggerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            } else {
-                entry.target.classList.remove('visible');
-            }
-        });
-    }, {
-        threshold: 0,
-        rootMargin: "50px"
-    });
-
-    staggerElements.forEach(el => staggerObserver.observe(el));
-
-    // Fallback: If elements are still invisible after 2 seconds, force them visible
-    setTimeout(() => {
-        staggerElements.forEach(el => {
-            if (!el.classList.contains('visible')) {
-                // Only force if it's actually in viewport or just force all to be safe
-                el.classList.add('visible');
-            }
-        });
-    }, 1500);
-
-    // --- Character Reveal Effect ---
-    function applyCharacterReveal(selector) {
+    // --- Character Reveal Effect Setup ---
+    function prepareCharacterReveal(selector) {
         const elements = document.querySelectorAll(selector);
         elements.forEach(el => {
             const text = el.textContent.trim();
             el.innerHTML = '';
             const words = text.split(' ');
-            let charIndex = 0;
             
             words.forEach((word, wordIdx) => {
                 const wordSpan = document.createElement('span');
@@ -238,10 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let i = 0; i < word.length; i++) {
                     const charSpan = document.createElement('span');
                     charSpan.textContent = word[i];
-                    charSpan.className = 'char';
-                    charSpan.style.setProperty('--char-index', charIndex);
+                    charSpan.className = 'gsap-char'; // New class
                     wordSpan.appendChild(charSpan);
-                    charIndex++;
                 }
                 
                 el.appendChild(wordSpan);
@@ -252,6 +234,257 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    applyCharacterReveal('.accordion-header h3');
-    applyCharacterReveal('.accordion-inner p');
+    prepareCharacterReveal('.gsap-char-target');
+
+    // ==========================================================================
+    // GSAP & Lenis Cinematic Animation System
+    // ==========================================================================
+    
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initialize Lenis
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Common Easing
+    const cinematicEase = "power3.out"; // Maps closely to cubic-bezier(0.22,1,0.36,1)
+
+    // Make elements visible right before animating to avoid FOUC
+    gsap.set('.reveal-target, .stagger-group > *, .blur-reveal, .timeline-item, .gsap-char', { visibility: 'visible' });
+
+    // 1. Global Reveal System
+    gsap.utils.toArray('.reveal-target').forEach(element => {
+        gsap.fromTo(element, 
+            { opacity: 0, y: 80, filter: 'blur(10px)' },
+            {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.2,
+                ease: cinematicEase
+            }
+        );
+    });
+
+    // 2. Staggered Group Reveals
+    gsap.utils.toArray('.stagger-group').forEach(group => {
+        const children = group.children;
+        gsap.fromTo(children,
+            { opacity: 0, y: 50, filter: 'blur(5px)' },
+            {
+                scrollTrigger: {
+                    trigger: group,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.2,
+                stagger: 0.15,
+                ease: cinematicEase
+            }
+        );
+    });
+
+    // 3. Text Blur Reveal (Large Headlines)
+    gsap.utils.toArray('.blur-reveal').forEach(text => {
+        gsap.fromTo(text,
+            { opacity: 0, y: 50, filter: 'blur(15px)' },
+            {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 1.5,
+                ease: "power2.out"
+            }
+        );
+    });
+
+    // 4. Parallax Elements
+    gsap.utils.toArray('[data-speed]').forEach(el => {
+        const speed = parseFloat(el.getAttribute('data-speed'));
+        gsap.to(el, {
+            y: () => (1 - speed) * ScrollTrigger.maxScroll(window),
+            ease: "none",
+            scrollTrigger: {
+                trigger: el,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true
+            }
+        });
+    });
+
+    // 5. Timeline Scroll Scrubbing Effect
+    const timeline = document.querySelector('.timeline');
+    const timelineProgress = document.querySelector('.timeline-progress');
+    const timelineItems = gsap.utils.toArray('.timeline-item');
+    
+    if (timeline && timelineProgress) {
+        // Animate the vertical progress line
+        gsap.to(timelineProgress, {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: timeline,
+                start: "top 60%", // Start line when top of timeline is 60% down viewport
+                end: "bottom 60%",
+                scrub: 0.5
+            }
+        });
+
+        // Animate each item
+        timelineItems.forEach((item, i) => {
+            const dot = item.querySelector('.timeline-dot');
+            const card = item.querySelector('.timeline-content');
+            
+            // Initial state
+            gsap.set(item, { visibility: 'visible' });
+            gsap.set(dot, { backgroundColor: '#fff', boxShadow: 'none', scale: 0.8 });
+            gsap.set(card, { opacity: 0, y: 50, filter: 'blur(5px)' });
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 60%", // When item reaches 60% down viewport (where line is)
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            tl.to(dot, {
+                backgroundColor: 'var(--accent-primary)',
+                boxShadow: '0 0 15px var(--accent-primary)',
+                scale: 1.2,
+                duration: 0.4,
+                ease: "back.out(2)"
+            })
+            .to(card, {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.8,
+                ease: cinematicEase
+            }, "-=0.2"); // overlap slightly
+        });
+    }
+
+    // 6. Character Reveal for GSAP
+    gsap.utils.toArray('.accordion-item').forEach(item => {
+        const chars = item.querySelectorAll('.gsap-char');
+        if (chars.length > 0) {
+            // Setup trigger to animate characters when accordion opens or scrolls in
+            gsap.fromTo(chars,
+                { opacity: 0, y: 15 },
+                {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.015,
+                    ease: "back.out(1.7)"
+                }
+            );
+        }
+    });
+
+    // 7. FAQ Inverted Pyramid & Scrub Animation
+    const faqItems = gsap.utils.toArray('.accordion-item');
+    const faqSection = document.querySelector('.faqs');
+    
+    if (faqItems.length > 0 && faqSection) {
+        // Set inverted pyramid widths
+        faqItems.forEach((item, i) => {
+            const targetWidth = 100 - (i * 3.5); 
+            gsap.set(item, { 
+                width: targetWidth + '%', 
+                margin: '0 auto',
+                transformOrigin: "top center"
+            });
+        });
+
+        // Scrub animation: As you scroll, they fan out smoothly
+        gsap.fromTo(faqItems, 
+            { y: (i) => i * -25, scale: 0.95 }, 
+            {
+                y: 0,
+                scale: 1,
+                scrollTrigger: {
+                    trigger: faqSection,
+                    start: 'top 80%',
+                    end: 'center center',
+                    scrub: 1
+                },
+                ease: "none"
+            }
+        );
+    }
+
+    // 8. Unique 3D Tilt Effect for Hero Video
+    const videoContainer = document.querySelector('.video-container');
+    const heroSection = document.querySelector('.hero');
+    
+    if (videoContainer && heroSection) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = videoContainer.getBoundingClientRect();
+            // Calculate center of the video
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Distance of mouse from center (smoother, subtler tilt)
+            const xAxis = (centerX - e.clientX) / 40; // reduced tilt factor
+            const yAxis = (centerY - e.clientY) / 40;
+            
+            gsap.to(videoContainer, {
+                rotationY: -xAxis,
+                rotationX: yAxis,
+                transformPerspective: 1000,
+                transformOrigin: "center center",
+                ease: 'power3.out',
+                duration: 1.2,
+                overwrite: 'auto'
+            });
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            gsap.to(videoContainer, {
+                rotationY: 0,
+                rotationX: 0,
+                ease: 'elastic.out(1, 0.3)',
+                duration: 1.5
+            });
+        });
+    }
+
 });

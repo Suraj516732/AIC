@@ -8,8 +8,7 @@
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -43,23 +42,21 @@
     <!-- Hero Section -->
     <header id="home" class="hero">
         <div class="hero-bg-animated"></div>
-        <div class="hero-content fade-up">
+        <div class="hero-content stagger-group">
             <div class="trust-badge">
                 <span class="trust-icon">🏆</span>
                 <span>Over 5,000+ students trained in 10,000+ hours</span>
             </div>
-            <h1 class="main-headline">Become the Top 1% Earning Remote Sales Closer in 4 Months or Less</h1>
+            <h1 class="main-headline blur-reveal">Become the Top 1% Earning Remote<br>Sales Closer in 4 Months or Less</h1>
             <p class="sub-headline">Even if you have no sales experience. Master High-Ticket Sales Closing - AIC Method.</p>
-            <div class="hero-actions">
+            
+            <div class="video-container reveal-target">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/YYNxSJCql4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+            </div>
+
+            <div class="hero-actions" style="margin-top: 40px; margin-bottom: 0;">
                 <button class="cta-button primary-solid book-call-trigger">BOOK A CALL</button>
                 <a href="#blueprint" class="cta-button primary-outline">LEARN MORE</a>
-            </div>
-            
-            <div class="video-container fade-up delay-2">
-                <div class="video-placeholder">
-                    <div class="play-button">▶</div>
-                    <span>Click to watch intro</span>
-                </div>
             </div>
         </div>
     </header>
@@ -67,28 +64,19 @@
     <!-- The Blueprint Section -->
     <section id="blueprint" class="blueprint">
         <div class="section-container">
-            <div class="section-header fade-up">
-                <h2>The $10K+/M Remote Sales Blueprint</h2>
+            <div class="section-header stagger-group">
+                <h2 class="blur-reveal">The $10K+/M Remote Sales Blueprint</h2>
                 <p>It starts with you — unlock your full earning potential.</p>
             </div>
             
-            <div class="carousel-wrapper fade-up">
+            <div class="carousel-wrapper reveal-target">
                 <button class="carousel-nav prev" aria-label="Previous">&lt;</button>
                 
                 <div class="carousel-container">
                     <div class="carousel-track">
-                        <!-- Stats Card -->
-                        <div class="carousel-card stats-card">
-                            <div class="card-inner">
-                                <span class="badge success">✓ Success</span>
-                                <h3 class="stat-number">$31,635.18 USD</h3>
-                                <p class="stat-label">Last Online Booking</p>
-                                <p class="stat-date">06/14, 2026 7:17 AM</p>
-                            </div>
-                        </div>
-                        
+
                         <!-- Feature 1 -->
-                        <div class="carousel-card feature-card">
+                        <div class="carousel-card feature-card gsap-card">
                             <div class="card-inner">
                                 <div class="card-image bg-1"></div>
                                 <div class="card-number">01</div>
@@ -99,7 +87,7 @@
                         </div>
                         
                         <!-- Feature 2 -->
-                        <div class="carousel-card feature-card">
+                        <div class="carousel-card feature-card gsap-card">
                             <div class="card-inner">
                                 <div class="card-image bg-2"></div>
                                 <div class="card-number">02</div>
@@ -110,7 +98,7 @@
                         </div>
                         
                         <!-- Feature 3 -->
-                        <div class="carousel-card feature-card">
+                        <div class="carousel-card feature-card gsap-card">
                             <div class="card-inner">
                                 <div class="card-image bg-3"></div>
                                 <div class="card-number">03</div>
@@ -125,7 +113,7 @@
                 <button class="carousel-nav next" aria-label="Next">&gt;</button>
             </div>
             
-            <div class="carousel-dots">
+            <div class="carousel-dots reveal-target">
                 <span class="dot active"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
@@ -138,47 +126,48 @@
     <section id="about" class="about-section">
         <div class="section-container about-container">
             <!-- Left Column -->
-            <div class="about-left">
-                <div class="about-photo scroll-fade-in-out">
+            <div class="about-left stagger-group">
+                <div class="about-photo">
                     <img src="alex.png" alt="Alex Bergstrom">
                 </div>
-                <div class="about-bio">
-                    <h2 class="about-title scroll-fade-in-out-stagger" style="--stagger-index: 1;">👋 Intro - Alex Bergstrom!</h2>
-                    <p class="scroll-fade-in-out-stagger" style="--stagger-index: 2;">Here's how I went from working random 9-5 jobs with a daughter on the way, to making my first $30,000 commission check within 6 months as a remote sales rep. The path I took is the same that 100's of our students emulated to become top 1% earners in the online sales space.</p>
-                    <div class="about-signature scroll-fade-in-out-stagger" style="--stagger-index: 3;">Alex Bergstrom</div>
-                    <button class="cta-button white-solid book-call-trigger scroll-fade-in-out-stagger" style="--stagger-index: 4;">APPLY NOW &rarr;</button>
+                <div class="about-bio stagger-group">
+                    <h2 class="about-title">👋 Intro - Alex Bergstrom!</h2>
+                    <p>Here's how I went from working random 9-5 jobs with a daughter on the way, to making my first $30,000 commission check within 6 months as a remote sales rep. The path I took is the same that 100's of our students emulated to become top 1% earners in the online sales space.</p>
+                    <div class="about-signature">Alex Bergstrom</div>
+                    <button class="cta-button black-solid book-call-trigger">APPLY NOW &rarr;</button>
                 </div>
             </div>
 
             <!-- Right Column: Timeline -->
             <div class="about-right">
                 <div class="timeline">
+                    <div class="timeline-progress"></div>
                     <!-- Timeline Item 1 -->
-                    <div class="timeline-item scroll-fade-in-out-stagger" style="--stagger-index: 1;">
+                    <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <div class="timeline-content">
+                        <div class="timeline-content gsap-card">
                             <span class="timeline-year">2016-2017</span>
                             <p>Graduated school and started attending college to become an engineer.</p>
                         </div>
                     </div>
                     <!-- Timeline Item 2 -->
-                    <div class="timeline-item scroll-fade-in-out-stagger" style="--stagger-index: 2;">
+                    <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <div class="timeline-content">
+                        <div class="timeline-content gsap-card">
                             <span class="timeline-year">2018</span>
                             <p>Dropped out of school after realizing the vision I had for myself of being financially free didn't align with the traditional education system. I started working odd jobs as a warehouse worker and server in restaurants.</p>
                         </div>
                     </div>
                     <!-- Timeline Item 3 -->
-                    <div class="timeline-item scroll-fade-in-out-stagger" style="--stagger-index: 3;">
+                    <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <div class="timeline-content">
+                        <div class="timeline-content gsap-card">
                             <span class="timeline-year">2020</span>
                             <p>Covid hit. Then 2 weeks later I found out I was having a daughter. It made me realize I needed to commit to something bigger. I decided to pivot into online business, first trying Amazon FBA, then dropshipping.</p>
                         </div>
                     </div>
                     <!-- Load More -->
-                    <div class="timeline-load-more scroll-fade-in-out-stagger" style="--stagger-index: 4;">
+                    <div class="timeline-load-more reveal-target">
                         <button class="load-more-btn">Load More</button>
                     </div>
                 </div>
@@ -188,139 +177,139 @@
 
     <!-- FAQs Section -->
     <section id="faqs" class="faqs">
-        <div class="faqs-glow-bg"></div>
+        <div class="faqs-glow-bg parallax-bg" data-speed="0.8"></div>
         <div class="section-container sm faqs-container">
-            <div class="section-header scroll-fade-in-out-stagger" style="--stagger-index: 0;">
-                <h2>FAQs</h2>
+            <div class="section-header reveal-target">
+                <h2 class="blur-reveal">FAQs</h2>
             </div>
             
-            <div class="accordion">
+            <div class="accordion stagger-group">
                 <!-- FAQ 1 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 1;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>Who is the AIC High-Ticket Closer program for?</h3>
+                        <h3 class="gsap-char-target">Who is the AIC High-Ticket Closer program for?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>It's for anyone—whether you're a complete beginner wanting to break into remote sales or a seasoned rep looking to transition into high-ticket closing to scale your income to $10K+/month.</p>
+                            <p class="gsap-char-target">It's for anyone—whether you're a complete beginner wanting to break into remote sales or a seasoned rep looking to transition into high-ticket closing to scale your income to $10K+/month.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 2 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 2;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>What makes AIC different from other sales training programs?</h3>
+                        <h3 class="gsap-char-target">What makes AIC different from other sales training programs?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>We don't just give you a course and leave you alone. You get daily live 1-on-1 roleplay, call analysis from 7-figure closers, and direct placement into vetted, high-converting offers.</p>
+                            <p class="gsap-char-target">We don't just give you a course and leave you alone. You get daily live 1-on-1 roleplay, call analysis from 7-figure closers, and direct placement into vetted, high-converting offers.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 3 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 3;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>Do you guarantee a job?</h3>
+                        <h3 class="gsap-char-target">Do you guarantee a job?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>While we cannot legally guarantee employment, we guarantee interviews and placement opportunities within our extensive network of 7- and 8-figure business owners once you pass our internal certification.</p>
+                            <p class="gsap-char-target">While we cannot legally guarantee employment, we guarantee interviews and placement opportunities within our extensive network of 7- and 8-figure business owners once you pass our internal certification.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 4 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 4;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>What does the support structure look like?</h3>
+                        <h3 class="gsap-char-target">What does the support structure look like?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>You have access to 24/7 Slack support, daily live Q&A calls, mandatory roleplay sessions, and 1-on-1 access to coaches who actively review your recorded sales calls to provide immediate feedback.</p>
+                            <p class="gsap-char-target">You have access to 24/7 Slack support, daily live Q&A calls, mandatory roleplay sessions, and 1-on-1 access to coaches who actively review your recorded sales calls to provide immediate feedback.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 5 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 5;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>If I'm already in a sales role, how can you help?</h3>
+                        <h3 class="gsap-char-target">If I'm already in a sales role, how can you help?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>We help you transition from low-ticket or traditional B2B/B2C sales into high-ticket inbound closing, where commission checks are significantly larger and call volume is typically warmer.</p>
+                            <p class="gsap-char-target">We help you transition from low-ticket or traditional B2B/B2C sales into high-ticket inbound closing, where commission checks are significantly larger and call volume is typically warmer.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 6 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 6;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>How long does it typically take to land a sales role?</h3>
+                        <h3 class="gsap-char-target">How long does it typically take to land a sales role?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>Most students who dedicate 1-2 hours daily to mastering the frameworks are able to pass certification and land their first high-ticket role within 4 to 8 weeks.</p>
+                            <p class="gsap-char-target">Most students who dedicate 1-2 hours daily to mastering the frameworks are able to pass certification and land their first high-ticket role within 4 to 8 weeks.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- FAQ 7 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 7;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>Do I need previous sales experience?</h3>
+                        <h3 class="gsap-char-target">Do I need previous sales experience?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>No prior experience is needed. Our blueprint is designed to take complete beginners and mold them into top 1% closers using our proven step-by-step frameworks.</p>
+                            <p class="gsap-char-target">No prior experience is needed. Our blueprint is designed to take complete beginners and mold them into top 1% closers using our proven step-by-step frameworks.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- FAQ 8 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 8;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>How quickly can I start making $10k/month?</h3>
+                        <h3 class="gsap-char-target">How quickly can I start making $10k/month?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>While results vary based on your dedication, most of our students who follow the daily actions and attend the 1:1 sessions hit the $10k/mo run rate within their first 90 to 120 days of placement.</p>
+                            <p class="gsap-char-target">While results vary based on your dedication, most of our students who follow the daily actions and attend the 1:1 sessions hit the $10k/mo run rate within their first 90 to 120 days of placement.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- FAQ 9 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 9;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>Is this a full-time commitment?</h3>
+                        <h3 class="gsap-char-target">Is this a full-time commitment?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>During the training phase, you can start part-time (1-2 hours a day). However, to reach $10k+/mo, you will eventually want to transition to taking sales calls full-time remotely.</p>
+                            <p class="gsap-char-target">During the training phase, you can start part-time (1-2 hours a day). However, to reach $10k+/mo, you will eventually want to transition to taking sales calls full-time remotely.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- FAQ 10 -->
-                <div class="accordion-item scroll-fade-in-out-stagger" style="--stagger-index: 10;">
+                <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>How do I get started?</h3>
+                        <h3 class="gsap-char-target">How do I get started?</h3>
                         <span class="chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 15 12 20 17 15"></polyline><polyline points="7 9 12 4 17 9"></polyline></svg></span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <p>Simply click any "Book A Call" button on this page to schedule a free 1-on-1 consultation with our admissions team to see if you're a good fit for the program.</p>
+                            <p class="gsap-char-target">Simply click any "Book A Call" button on this page to schedule a free 1-on-1 consultation with our admissions team to see if you're a good fit for the program.</p>
                         </div>
                     </div>
                 </div>
@@ -330,7 +319,7 @@
 
     <!-- Bottom CTA Section -->
     <section class="bottom-cta">
-        <div class="avatars-bg">
+        <div class="avatars-bg parallax-bg" data-speed="1.15">
             <div class="avatar-item" style="background-image: url('https://i.pravatar.cc/150?img=1')"></div>
             <div class="avatar-item" style="background-image: url('https://i.pravatar.cc/150?img=2')"></div>
             <div class="avatar-item" style="background-image: url('https://i.pravatar.cc/150?img=3')"></div>
@@ -402,10 +391,10 @@
             <div class="avatar-item" style="background-image: url('https://i.pravatar.cc/150?img=69')"></div>
             <div class="avatar-item" style="background-image: url('https://i.pravatar.cc/150?img=70')"></div>
         </div>
-        <div class="bottom-cta-content">
-            <h2 class="scroll-fade-in-out-stagger" style="--stagger-index: 1;">Join Over 300 Sales Reps<br>Earning $10K/M+</h2>
-            <p class="scroll-fade-in-out-stagger" style="--stagger-index: 2;">I'll work with you 1 on 1 to fast track your success.</p>
-            <button class="cta-button white-solid book-call-trigger scroll-fade-in-out-stagger" style="--stagger-index: 3;">BOOK A CALL &rarr;</button>
+        <div class="bottom-cta-content stagger-group">
+            <h2 class="blur-reveal">Join Over 300 Sales Reps<br>Earning $10K/M+</h2>
+            <p>I'll work with you 1 on 1 to fast track your success.</p>
+            <button class="cta-button black-solid book-call-trigger">BOOK A CALL &rarr;</button>
         </div>
     </section>
 
@@ -461,7 +450,11 @@
             </div>
         </div>
     </div>
-
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
