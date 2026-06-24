@@ -45,6 +45,11 @@ html {
     padding: 0;
 }
 
+/* Prevent FOUC (Flash of Unstyled Content) before GSAP loads */
+.reveal-target, .stagger-group > *, .blur-reveal, .timeline-item, .gsap-char {
+    visibility: hidden;
+}
+
 body {
     font-family: var(--font-primary);
     background-color: var(--bg-primary);
@@ -201,12 +206,16 @@ h1, h2, h3, h4 {
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 800;
-    background: linear-gradient(to right, var(--accent-primary), var(--accent-primary-glow));
+    font-size: 26px;
+    font-weight: 900;
+    font-style: italic; /* tilt wala font */
+    background: linear-gradient(135deg, #00c3ff 0%, #0077ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px var(--accent-primary-glow);
+    filter: drop-shadow(0 4px 10px rgba(0, 195, 255, 0.4)); /* glassy effect */
+    letter-spacing: -0.5px;
+    padding-right: 6px; /* Prevent italic 'S' from clipping */
+    display: inline-block;
 }
 
 .nav-links {
@@ -226,7 +235,8 @@ h1, h2, h3, h4 {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 0;
     height: 2px;
     background-color: var(--accent-primary);
@@ -248,14 +258,20 @@ h1, h2, h3, h4 {
     border: none;
     border-radius: 30px;
     font-weight: 700;
+}
+
+.cta-button {
     transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 174, 224, 0.2);
 }
 
 .navbar .cta-button:hover {
     background-color: var(--accent-primary);
     color: #ffffff;
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 174, 224, 0.3);
 }
 
 /* Hamburger */
@@ -341,8 +357,8 @@ h1, h2, h3, h4 {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background-color: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background-color: rgba(0, 195, 255, 0.08); /* changed from yellow */
+    border: 1px solid rgba(0, 195, 255, 0.2);
     padding: 8px 16px;
     border-radius: 30px;
     font-size: 14px;
@@ -352,7 +368,7 @@ h1, h2, h3, h4 {
 }
 
 .main-headline {
-    font-size: clamp(32px, 5vw, 68px);
+    font-size: clamp(28px, 4.5vw, 54px); /* reduced size */
     font-weight: 800;
     margin-bottom: 25px;
     max-width: 1200px;
@@ -383,7 +399,7 @@ h1, h2, h3, h4 {
     background-color: var(--bg-tertiary);
     position: relative;
     overflow: hidden;
-    animation: videoGlow 4s infinite alternate;
+    /* removed glow animation */
 }
 
 @keyframes videoGlow {
@@ -651,10 +667,11 @@ h1, h2, h3, h4 {
 }
 
 .about-signature {
-    font-family: 'Brush Script MT', cursive, sans-serif;
-    font-size: 42px;
-    color: rgba(0, 0, 0, 0.7);
-    margin-bottom: 30px;
+    font-family: 'Caveat', cursive;
+    font-size: 52px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 25px;
     transform: rotate(-5deg);
 }
 
@@ -823,25 +840,15 @@ h1, h2, h3, h4 {
 
 .chevron {
     color: rgba(0, 0, 0, 0.7);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.accordion-item.active .chevron {
-    transform: rotate(180deg);
-    color: var(--text-primary);
-}
-
 .accordion-content {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-item.active .accordion-content {
-    grid-template-rows: 1fr;
+    height: 0;
+    overflow: hidden;
+    display: block;
 }
 
 .accordion-inner {
@@ -1315,7 +1322,7 @@ h1, h2, h3, h4 {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 24px;
-    padding: 40px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1324,15 +1331,15 @@ h1, h2, h3, h4 {
 }
 
 .review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.14);
 }
 
 .review-header {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .review-avatar {
@@ -1362,11 +1369,11 @@ h1, h2, h3, h4 {
 }
 
 .review-text {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.6;
     color: #444444;
     font-weight: 400;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-style: italic;
     flex-grow: 1;
 }
@@ -1375,7 +1382,7 @@ h1, h2, h3, h4 {
 @media (min-width: 768px) {
     .review-card:nth-child(1) .review-text,
     .review-card:nth-child(4) .review-text {
-        font-size: 22px;
+        font-size: 20px;
         line-height: 1.5;
         font-weight: 400;
     }
@@ -1409,7 +1416,7 @@ h1, h2, h3, h4 {
 @media (min-width: 768px) {
     .inline-booking-flow {
         flex-direction: row;
-        align-items: flex-start;
+        align-items: stretch;
     }
     
     .inline-booking-flow .calendar-section {
@@ -1421,6 +1428,12 @@ h1, h2, h3, h4 {
     
     .inline-booking-flow .time-section {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .inline-booking-flow .time-section .submit-btn {
+        margin-top: auto !important;
     }
 }
 
@@ -1478,4 +1491,47 @@ h1, h2, h3, h4 {
     font-size: 17px;
     line-height: 1.6;
     color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Video Testimonial Micro-Interactions
+   ========================================================================== */
+.video-thumbnail {
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+
+.review-card:hover .video-thumbnail {
+    transform: scale(1.02);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: gentle-pulse 2.5s infinite;
+}
+
+.play-button .triangle {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid white;
+    margin-left: 5px;
+}
+
+@keyframes gentle-pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.08); }
+    100% { transform: translate(-50%, -50%) scale(1); }
 }
