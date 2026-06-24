@@ -1,0 +1,10 @@
+{
+  "name": "aic",
+  "version": "1.0.0",
+  "description": "Static HTML project",
+  "scripts": {
+    "dev": "npx --yes serve ."
+  },
+  "author": "",
+  "license": "ISC"
+}

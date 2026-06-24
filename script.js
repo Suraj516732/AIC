@@ -250,17 +250,19 @@ document.addEventListener('DOMContentLoaded', () => {
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1,
-        smoothTouch: false,
+        smoothTouch: true,
         touchMultiplier: 2,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    // Sync Lenis's requestAnimationFrame with GSAP's ticker for performance
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    
+    // Disable GSAP lag smoothing to prevent conflicts
+    gsap.ticker.lagSmoothing(0);
 
     // Common Easing
     const cinematicEase = "power3.out"; // Maps closely to cubic-bezier(0.22,1,0.36,1)
@@ -271,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Global Reveal System
     gsap.utils.toArray('.reveal-target').forEach(element => {
         gsap.fromTo(element, 
-            { opacity: 0, y: 80, filter: 'blur(10px)' },
+            { opacity: 0, y: 30 },
             {
                 scrollTrigger: {
                     trigger: element,
@@ -280,8 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.2,
+                duration: 0.6,
                 ease: cinematicEase
             }
         );
@@ -291,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.utils.toArray('.stagger-group').forEach(group => {
         const children = group.children;
         gsap.fromTo(children,
-            { opacity: 0, y: 50, filter: 'blur(5px)' },
+            { opacity: 0, y: 30 },
             {
                 scrollTrigger: {
                     trigger: group,
@@ -300,18 +301,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.2,
-                stagger: 0.15,
+                duration: 0.6,
+                stagger: 0.1,
                 ease: cinematicEase
             }
         );
     });
 
-    // 3. Text Blur Reveal (Large Headlines)
+    // 3. Text Reveal (Large Headlines)
     gsap.utils.toArray('.blur-reveal').forEach(text => {
         gsap.fromTo(text,
-            { opacity: 0, y: 50, filter: 'blur(15px)' },
+            { opacity: 0, y: 30 },
             {
                 scrollTrigger: {
                     trigger: text,
@@ -320,9 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 1.5,
-                ease: "power2.out"
+                duration: 0.6,
+                ease: cinematicEase
             }
         );
     });
@@ -369,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Initial state
             gsap.set(item, { visibility: 'visible' });
             gsap.set(dot, { backgroundColor: '#fff', boxShadow: 'none', scale: 0.8 });
-            gsap.set(card, { opacity: 0, y: 50, filter: 'blur(5px)' });
+            gsap.set(card, { opacity: 0, y: 30 });
 
             const tl = gsap.timeline({
                 scrollTrigger: {
@@ -389,8 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .to(card, {
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
-                duration: 0.8,
+                duration: 0.6,
                 ease: cinematicEase
             }, "-=0.2"); // overlap slightly
         });
@@ -424,29 +422,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const faqSection = document.querySelector('.faqs');
     
     if (faqItems.length > 0 && faqSection) {
-        // Set inverted pyramid widths
-        faqItems.forEach((item, i) => {
-            const targetWidth = 100 - (i * 3.5); 
-            gsap.set(item, { 
-                width: targetWidth + '%', 
-                margin: '0 auto',
-                transformOrigin: "top center"
-            });
+        // Ensure items are full width and centered
+        gsap.set(faqItems, { 
+            width: '100%', 
+            margin: '0 auto',
+            transformOrigin: "top center"
         });
 
-        // Scrub animation: As you scroll, they fan out smoothly
+        // Pop-up stagger animation: they pop one by one
         gsap.fromTo(faqItems, 
-            { y: (i) => i * -25, scale: 0.95 }, 
+            { opacity: 0, y: 40, scale: 0.9 }, 
             {
+                opacity: 1,
                 y: 0,
                 scale: 1,
                 scrollTrigger: {
                     trigger: faqSection,
-                    start: 'top 80%',
-                    end: 'center center',
-                    scrub: 1
+                    start: 'top 75%',
+                    toggleActions: "play none none reverse"
                 },
-                ease: "none"
+                duration: 0.8,
+                stagger: 0.12,
+                ease: "back.out(1.5)"
             }
         );
     }

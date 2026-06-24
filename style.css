@@ -850,7 +850,7 @@ h1, h2, h3, h4 {
 
 .accordion-inner p {
     padding: 0 30px 24px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
     font-size: 15px;
     line-height: 1.6;
     margin: 0;
@@ -1152,11 +1152,11 @@ h1, h2, h3, h4 {
    ========================================================================== */
 .bottom-cta {
     position: relative;
-    padding: 150px 5%;
+    padding: 100px 5%;
     text-align: center;
     overflow: hidden;
     background-color: var(--bg-primary);
-    min-height: 80vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1195,6 +1195,7 @@ h1, h2, h3, h4 {
     position: relative;
     z-index: 1;
     max-width: 800px;
+    margin-top: -60px; /* Shift text upwards into the avatars */
 }
 
 .bottom-cta-content h2 {
@@ -1241,4 +1242,240 @@ h1, h2, h3, h4 {
 .scroll-fade-in-out.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* ==========================================================================
+   Reviews Section (Premium Split Texture)
+   ========================================================================== */
+.reviews-section {
+    padding: 120px 0;
+    position: relative;
+    background-color: #fbfbfb; /* White side */
+    overflow: hidden;
+}
+
+/* The dark charcoal plaster split */
+.reviews-section::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 45%;
+    background-color: #2c2c2c; /* Dark charcoal from reference */
+    /* Soft brushed transition */
+    mask-image: linear-gradient(to right, transparent, black 15%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
+    z-index: 0;
+}
+
+/* Organic Plaster Noise Texture Overlay */
+.reviews-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+}
+
+.reviews-section .section-container {
+    position: relative;
+    /* Removed z-index: 2 to allow mix-blend-mode to blend with the parent background */
+}
+
+/* Mix blend mode for the header so it contrasts perfectly on both sides */
+.reviews-section .section-header {
+    color: #ffffff;
+    mix-blend-mode: difference;
+}
+
+.reviews-section .section-header h2,
+.reviews-section .section-header p {
+    color: inherit;
+}
+
+/* Frosted Glass Cards (Bento Layout) */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .review-card:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .review-card:nth-child(4) { grid-column: span 2; }
+}
+
+.review-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.review-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-primary);
+}
+
+.review-header h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #1a1a1a;
+}
+
+.earnings-tag {
+    display: inline-block;
+    background-color: rgba(34, 197, 94, 0.15);
+    color: #0f9d58; /* readable green on white */
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.review-text {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #444444;
+    font-weight: 400;
+    margin-bottom: 30px;
+    font-style: italic;
+    flex-grow: 1;
+}
+
+/* Larger text for the featured span-2 cards */
+@media (min-width: 768px) {
+    .review-card:nth-child(1) .review-text,
+    .review-card:nth-child(4) .review-text {
+        font-size: 22px;
+        line-height: 1.5;
+        font-weight: 400;
+    }
+}
+
+.stars {
+    color: #FFB800;
+    font-size: 16px;
+    letter-spacing: 3px;
+}
+
+/* ==========================================================================
+   Schedule Section
+   ========================================================================== */
+.schedule-section {
+    padding: 100px 0;
+    background-color: var(--bg-primary);
+}
+
+.inline-booking-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+    .inline-booking-flow {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .inline-booking-flow .calendar-section {
+        flex: 1;
+        margin-bottom: 0;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+    }
+    
+    .inline-booking-flow .time-section {
+        flex: 1;
+    }
+}
+
+/* ==========================================================================
+   Whom We Help Section
+   ========================================================================== */
+.who-we-help-section {
+    padding: 100px 0;
+    background-color: var(--bg-primary);
+}
+
+.whom-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: 40px auto 0;
+}
+
+.whom-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+}
+
+.whom-row:first-child {
+    border-top: 1px solid var(--border-light);
+}
+
+.whom-row:hover {
+    padding-left: 20px;
+    background-color: rgba(0,0,0,0.02);
+    border-color: var(--accent-primary);
+}
+
+.whom-number {
+    font-size: 50px;
+    font-weight: 800;
+    color: var(--accent-primary);
+    opacity: 0.8;
+    line-height: 1;
+    min-width: 70px;
+}
+
+.whom-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.whom-content p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-muted);
 }
