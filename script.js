@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1,
-        smoothTouch: true,
+        smoothTouch: false,
         touchMultiplier: 2,
     });
 
@@ -437,28 +437,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const faqSection = document.querySelector('.faqs');
     
     if (accordionItems.length > 0 && faqSection) {
-        // Ensure items are full width and centered
+        // Ensure items are full width and centered, and disable CSS transitions during GSAP scroll reveal
         gsap.set(accordionItems, { 
             width: '100%', 
             margin: '0 auto',
-            transformOrigin: "top center"
+            transformOrigin: "top center",
+            transition: "none"
         });
 
-        // Section reveal (Pop-up stagger animation: they pop one by one)
+        // Section reveal (Pyramid/Cascade style fade up + scale + blur stagger animation)
         gsap.fromTo(accordionItems, 
-            { opacity: 0, y: 40, scale: 0.9 }, 
+            { 
+                opacity: 0, 
+                y: 60, 
+                scale: 0.85,
+                filter: "blur(10px)"
+            }, 
             {
                 opacity: 1,
                 y: 0,
                 scale: 1,
+                filter: "blur(0px)",
                 scrollTrigger: {
                     trigger: faqSection,
                     start: 'top 75%',
                     toggleActions: "play none none reverse"
                 },
-                duration: 0.8,
-                stagger: 0.12,
-                ease: "back.out(1.5)"
+                duration: 1,
+                stagger: 0.15,
+                ease: cinematicEase
             }
         );
 
