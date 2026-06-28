@@ -249,6 +249,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     gsap.ticker.lagSmoothing(0);
 
+    // Handle Anchor Links for Smooth Scrolling with Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                lenis.scrollTo(targetElement, { offset: -100 });
+            }
+        });
+    });
+
     const cinematicEase = "power3.out"; 
 
     // Prevent FOUC
