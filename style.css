@@ -186,13 +186,67 @@ h1, h2, h3, h4 {
     width: 90%;
     max-width: 900px;
     height: 70px;
-    background-color: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: transparent;
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
     border-radius: 50px;
     z-index: 100;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    /* Glossy glass border */
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-top-color: rgba(255, 255, 255, 0.8);
+    /* Depth shadows */
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+    overflow: hidden;
+}
+
+/* Glossy sheen — thin bright strip on top */
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.9) 30%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0.9) 70%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Subtle inner glass fill — very low opacity */
+.navbar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.04) 60%,
+        rgba(255, 255, 255, 0.0) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.navbar:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    border-top-color: rgba(255, 255, 255, 0.95);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(0, 174, 224, 0.06);
 }
 
 .nav-container {
@@ -392,7 +446,7 @@ h1, h2, h3, h4 {
 
 .video-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 850px;
     aspect-ratio: 16/9;
     border: 1px solid var(--border-light);
     border-radius: 12px;
@@ -1252,53 +1306,39 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   Reviews Section (Premium Split Texture)
+   Reviews Section — Top White / Bottom Black Split
    ========================================================================== */
+@keyframes fadeInSection {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .reviews-section {
     padding: 120px 0;
     position: relative;
-    background-color: #fbfbfb; /* White side */
+    background: #ffffff;
     overflow: hidden;
+    animation: fadeInSection 0.8s ease both;
 }
 
-/* The dark charcoal plaster split */
-.reviews-section::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 45%;
-    background-color: #2c2c2c; /* Dark charcoal from reference */
-    /* Soft brushed transition */
-    mask-image: linear-gradient(to right, transparent, black 15%);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
-    z-index: 0;
-}
-
-/* Organic Plaster Noise Texture Overlay */
-.reviews-section::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-}
+.reviews-section::after { content: none; }
 
 .reviews-section .section-container {
     position: relative;
-    /* Removed z-index: 2 to allow mix-blend-mode to blend with the parent background */
+    z-index: 2;
 }
 
-/* Mix blend mode for the header so it contrasts perfectly on both sides */
-.reviews-section .section-header {
-    color: #ffffff;
-    mix-blend-mode: difference;
+/* Heading sits on white — use dark text */
+.reviews-section .section-header h2 {
+    color: #0a0a0a;
+    mix-blend-mode: normal;
 }
 
-.reviews-section .section-header h2,
 .reviews-section .section-header p {
-    color: inherit;
+    color: #555555;
+    mix-blend-mode: normal;
 }
+
 
 /* Frosted Glass Cards (Bento Layout) */
 .reviews-grid {

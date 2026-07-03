@@ -1,6 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================================================
+    // Inline YouTube Video Player with Auto-Stop on Scroll
+    // ==========================================================================
+    const youtubeTriggers = document.querySelectorAll('.youtube-trigger');
+    
+    // Store original HTML for each trigger
+    youtubeTriggers.forEach(trigger => {
+        const thumbnailContainer = trigger.querySelector('.video-thumbnail');
+        if (thumbnailContainer) {
+            trigger.dataset.originalHtml = thumbnailContainer.innerHTML;
+        }
+    });
+
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                const trigger = entry.target;
+                const thumbnailContainer = trigger.querySelector('.video-thumbnail');
+                // If it's playing (has iframe), restore the original thumbnail
+                if (thumbnailContainer && thumbnailContainer.querySelector('iframe')) {
+                    thumbnailContainer.innerHTML = trigger.dataset.originalHtml;
+                    trigger.style.cursor = 'pointer';
+                }
+            }
+        });
+    }, { threshold: 0 });
+
+    youtubeTriggers.forEach(trigger => {
+        videoObserver.observe(trigger);
+
+        trigger.addEventListener('click', function() {
+            // Prevent multiple clicks if already playing
+            const thumbnailContainer = this.querySelector('.video-thumbnail');
+            if (thumbnailContainer.querySelector('iframe')) return;
+
+            const videoId = this.getAttribute('data-youtube-id');
+            if (videoId) {
+                thumbnailContainer.innerHTML = `
+                    <iframe width="100%" height="100%" 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen 
+                        style="border-radius: 12px; background: #000;">
+                    </iframe>
+                `;
+                this.style.cursor = 'default';
+            }
+        });
+    });
+
+    // ==========================================================================
     // Core Navigation & UI Logic (Non-GSAP)
     // ==========================================================================
 
